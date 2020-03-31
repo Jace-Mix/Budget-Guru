@@ -8,6 +8,7 @@ const LoginPage = () =>
     return(
         <div>
             <PageTitle />
+            <br />
             <Login />
         </div>
     );
