@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import CardPage from './pages/CardPage';
+import SignUpPage from './pages/SignUpPage';
 
 function App() {
   return(
@@ -18,6 +19,9 @@ function App() {
         </Route>
         <Route path="/login" exact>
           <LoginPage />
+        </Route>
+        <Route path="/signup" exact>
+            <SignUpPage />
         </Route>
         <Redirect to="/" />
       </Switch>

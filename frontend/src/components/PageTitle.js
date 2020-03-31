@@ -29,7 +29,7 @@ export class PageTitle extends Component
             return(
                 <Fragment>
                 <Button type="button" className="mr-sm-2" href="/login">Sign In</Button>
-                <Button type="button" className="mr-sm-2" href="#SignUpPage">Sign Up</Button>
+                <Button type="button" className="mr-sm-2" href="/signup">Sign Up</Button>
                 </Fragment>
             )
         }
