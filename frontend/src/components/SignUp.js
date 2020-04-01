@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Form, Button} from 'react-bootstrap';
+import {Form, Button, Card} from 'react-bootstrap';
 
 function SignUp()
 {
@@ -38,6 +38,8 @@ function SignUp()
     };
 
     return(
+        <Card style={{width: '60rem', margin: 'auto', padding: '25px'}}>
+        <Card.Header className="text-center" as="h5">Sign Up</Card.Header>
         <Form className="mx-xl-2">
             <Form.Group controlId="formFirstName">
                 <Form.Label>First Name</Form.Label>
@@ -74,6 +76,7 @@ function SignUp()
             </Button>
             <span id="signUpResult">{message}</span>
         </Form>
+        </Card>
     );
 };
 

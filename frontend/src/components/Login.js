@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Form, Button} from 'react-bootstrap';
+import {Form, Button, Card} from 'react-bootstrap';
 
 function Login()
 {
@@ -39,18 +39,9 @@ function Login()
     };
 
     return(
-        /*
-        <div id="loginDiv">
-            <form onSubmit={doLogin}>
-                <span id="inner-title">PLEASE LOG IN</span><br />
-                <input type="text" id="loginName" placeholder="Username" ref={(c)=> loginName = c} /><br />
-                <input type="password" id="loginPassword" placeholder="Password" ref={(c)=> loginPassword = c} /><br />
-                <input type="submit" id="loginButton" class="buttons" value="Do It" onClick={doLogin} />
-            </form>
-            <span id="loginResult">{message}</span>
-        </div>
-        */
        <div id="loginDiv">
+           <Card style={{width: '60rem', margin: 'auto', padding: '25px'}}>
+            <Card.Header className="text-center" as="h5">Login</Card.Header>
            <Form className="mx-sm-3">
             <Form.Group controlId="formBasicEmail">
                 <Form.Label>Username</Form.Label>
@@ -65,6 +56,7 @@ function Login()
             </Button>
             <span id="loginResult">{message}</span>
             </Form>
+            </Card>
        </div>
     );
 };
