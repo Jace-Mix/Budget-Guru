@@ -1,6 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcryptjs');
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb+srv://Cody:1234@cop4331-group5-4sycb.mongodb.net/test?retryWrites=true&w=majority';
 
+const client = new MongoClient(url, {useUnifiedTopology: true});
+client.connect();
 const app = express();
 
 app.use(bodyParser.json());
@@ -38,30 +43,74 @@ app.post('/api/addcard', async(req, res, next) =>
     res.status(200).json(ret);
 });
 
+app.post('/api/signup', async(req, res, next) =>
+{
+    // incoming: firstName, lastName, email, userName, password
+    // outgoing: id, firstName, lastName, error
+    const{FirstName, LastName, Email, UserName, Password} = req.body;
+    var error = '';
+    const db = client.db("BudgetGuru");
+
+    // Check fields for completion
+    if (!FirstName || !LastName || !Email || !UserName || !Password)
+    {
+        return res.status(400).json({error: "Please enter all fields"});
+    }
+
+    // Search for already existing users
+    var results = await db.collection('Users').findOne({Email});
+    if (results)
+    {
+        return res.status(400).json({error: "Email Already Registered"});
+    }
+
+    // Hash and salt password
+    var newPassword = Password;
+    bcrypt.genSalt(10, (err, salt) =>
+    {
+        bcrypt.hash(Password, salt, (err, hash) =>
+        {
+            if (err) throw err;
+            newPassword = hash;
+
+            try
+            {
+                db.collection('Users').insertOne({FirstName, LastName, Email, UserName, Password: newPassword});
+            }
+            catch
+            {
+                error = e.toString();
+            }
+
+            var ret = {firstName: FirstName, lastName: LastName, email: Email, password: newPassword, error: error};
+            return res.status(200).json(ret);
+        })
+    });
+});
+
 app.post('/api/login', async(req, res, next) =>
 {
     // incoming: login, password
     // outgoing: id, firstName, lastName, error
 
-    var error = '';
     const{login, password} = req.body;
+    const db = client.db("BudgetGuru");
+    
+    const results = await db.collection('Users').find({UserName:login,Password:password}).toArray();
 
     var id = -1;
     var fn = '';
     var ln = '';
 
-    if (login.toLowerCase() == 'jacemixon' && password == 'something')
+    // Ocody10, password
+    if (results.length > 0)
     {
-        id = 1;
-        fn = 'Jace';
-        ln = 'Mixon';
-    }
-    else
-    {
-        error = 'Invalid username/password';
+        id = results[0].UserId;
+        fn = results[0].FirstName;
+        ln = results[0].LastName;
     }
 
-    var ret = {id:id, firstName:fn, lastName:ln, error:error};
+    var ret = {id:id, firstName:fn, lastName:ln, error:''};
     res.status(200).json(ret);
 });
 

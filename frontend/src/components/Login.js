@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Form, Button, Card} from 'react-bootstrap';
+import {Form, Button, Card, Alert} from 'react-bootstrap';
 
 function Login()
 {
@@ -7,6 +7,7 @@ function Login()
     var loginPassword;
 
     const[message, setMessage] = useState('');
+    const[show, setShow] = useState(false);
 
     const doLogin = async event =>
     {
@@ -21,6 +22,7 @@ function Login()
             if (res.id <= 0)
             {
                 setMessage('User/Password combination incorrect');
+                setShow(true);
             }
             else
             {
@@ -28,6 +30,7 @@ function Login()
                 localStorage.setItem('user_data',JSON.stringify(user));
 
                 setMessage('');
+                setShow(false);
                 window.location.href = '/cards';
             }
         }
@@ -37,6 +40,15 @@ function Login()
             return;
         }
     };
+
+    function warning()
+    {
+        return(
+            <Alert variant="danger" show={show} style={{width: '60rem', margin: 'auto', padding: '25px'}}>
+                <p>{message}</p>
+            </Alert>
+        );
+    }
 
     return(
        <div id="loginDiv">
@@ -54,9 +66,9 @@ function Login()
             <Button variant="primary" type="submit" id="loginButton" onClick={doLogin}>
                 Submit
             </Button>
-            <span id="loginResult">{message}</span>
             </Form>
             </Card>
+            {warning()}
        </div>
     );
 };

@@ -9,6 +9,9 @@ function CardUI()
     }
     var ud = JSON.parse(_ud);
     var userId = ud.id;
+    var firstName = ud.firstName;
+    var lastName = ud.lastName;
+
 
     var card = '';
     var search = '';
@@ -79,8 +82,9 @@ function CardUI()
 
     return(
         <div id="accessUIDiv">
+            {/* For testing reasons, delete afterwards */}
+            <p>Logged in as {firstName} {lastName}</p>
             <br />
-
             <input type="text" id="searchText" placeholder="Card To Search For" ref={(c) => search = c}/>
             <button type="button" id="SearchCardButton" class="buttons" onClick={searchCard}> Search Card </button><br />
             <span id="cardSearchResult">{searchResults}</span>

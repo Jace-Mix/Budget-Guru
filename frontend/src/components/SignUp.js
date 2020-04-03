@@ -1,20 +1,29 @@
 import React, {useState} from 'react';
-import {Form, Button, Card} from 'react-bootstrap';
+import {Form, Button, Card, Alert} from 'react-bootstrap';
 
 function SignUp()
 {
     var firstName, lastName, email, username, password, passwordRetyped;
 
     const[message, setMessage] = useState('');
+    const[show, setShow] = useState(false);
 
     // Incomplete: Need to update API backend (research JWT backend security)
     const signUpAttempt = async event =>
     {
         event.preventDefault();
 
-        if (password !== passwordRetyped)
+        if (firstName.value !== "Jace")
+        {
+            setMessage('Testing Error');
+            setShow(true);
+            return;
+        }
+
+        if (password.value !== passwordRetyped.value)
         {
             setMessage('Passwords do not match');
+            setShow(true);
             return;
         }
 
@@ -27,8 +36,10 @@ function SignUp()
             if (res.error !== '')
             {
                 setMessage('Error has occurred');
+                setShow(true);
                 return;
             }
+            setShow(false);
         }
         catch(e)
         {
@@ -37,7 +48,17 @@ function SignUp()
         }
     };
 
+    function warning()
+    {
+        return(
+            <Alert variant="danger" show={show} style={{width: '60rem', margin: 'auto', padding: '25px'}}>
+                <p>{message}</p>
+            </Alert>
+        );
+    }
+
     return(
+        <div>
         <Card style={{width: '60rem', margin: 'auto', padding: '25px'}}>
         <Card.Header className="text-center" as="h5">Sign Up</Card.Header>
         <Form className="mx-xl-2">
@@ -71,12 +92,14 @@ function SignUp()
                 <Form.Control type="password" ref={(c)=> passwordRetyped = c}/>
             </Form.Group>
             
+
             <Button variant="primary" type="submit" onClick={signUpAttempt}>
-                Submit
+                Register
             </Button>
-            <span id="signUpResult">{message}</span>
         </Form>
         </Card>
+        {warning()}
+        </div>
     );
 };
 
