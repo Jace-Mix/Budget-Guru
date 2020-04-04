@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://Cody:1234@cop4331-group5-4sycb.mongodb.net/BudgetGuru?retryWrites=true&w=majority",
+    "jwtSecret": "BG_JwtSecret"
+}
