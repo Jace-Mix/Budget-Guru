@@ -9,7 +9,7 @@ function auth(req, res, next)
     // Check for token
     if (!token)
     {
-        res.status(401).json({error: "Unauthorized action"});
+        return res.status(401).json({error: "Unauthorized action"});
     }
 
     try

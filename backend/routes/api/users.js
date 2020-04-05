@@ -21,7 +21,7 @@ router.post('/', (req, res) =>
     {
         if (user)
         {
-            return res.status(400).json({error: "Email already Registered"});
+            return res.status(400).json({error: "Email already registered"});
         }
 
         const newUser = new User(

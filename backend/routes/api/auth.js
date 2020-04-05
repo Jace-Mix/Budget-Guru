@@ -3,21 +3,23 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+const auth = require('../../middleware/auth')
 
 // User Model
 const User = require('../../models/User');
 
 router.post('/', (req, res) =>
 {
-    const {Email, Password} = req.body;
+    const {UserName, Password} = req.body;
 
-    if (!Email || !Password)
+    if (!UserName || !Password)
     {
+        console.log(UserName);
         return res.status(400).json({error: "Please enter all fields"});
     }
 
     // Search for existing User
-    User.findOne({ Email }).then(user => 
+    User.findOne({ UserName }).then(user => 
     {
         if (!user)
         {
@@ -29,7 +31,7 @@ router.post('/', (req, res) =>
         {
             if(!isMatch)
             {
-                return res.status(400).json({error: "Invalid credentials"});
+                return res.status(400).json({error: "Username/Password is incorrect"});
             }
 
             jwt.sign(
@@ -45,15 +47,20 @@ router.post('/', (req, res) =>
                         user: 
                         {
                             id: user.id,
-                            firstName: user.FirstName,
-                            lastName: user.LastName,
-                            email: user.Email
+                            FirstName: user.FirstName,
+                            LastName: user.LastName,
+                            Email: user.Email
                         }
                     })
                 }
             )
         })
     });
+});
+
+router.get('/user', auth, (req, res) =>
+{
+    User.findById(req.user.id).select('-Password').then(user => res.json(user));
 });
 
 module.exports = router;

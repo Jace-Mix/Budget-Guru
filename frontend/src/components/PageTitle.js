@@ -1,67 +1,60 @@
-import React, {Fragment, Component} from 'react';
-import {Navbar, Nav, Button} from 'react-bootstrap';
+import React, { Fragment, Component } from 'react';
+import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import RegisterModal from './auth/RegisterModal';
+import Logout from './auth/Logout';
 
 export class PageTitle extends Component
 {
-    // Deprecated until center adjustment can be figured out
-    configureHeaderName()
-    {
-        var _ud;
-        if ((_ud = localStorage.getItem('user_data')) === null)
-        {
-            return(<Navbar.Brand>Welcome!</Navbar.Brand>);
-        }
-        var ud = JSON.parse(_ud);
-        var firstName = ud.firstName;
-        var lastName = ud.lastName;
-        return(<Navbar.Brand>Logged in as {firstName} {lastName}</Navbar.Brand>);
-    }
-
-    logout = event =>
-    {
-        localStorage.removeItem("user_data");
-        window.location.href = '/';
-    }
-
-    configureHeaderButtons()
-    {
-        if (localStorage.getItem('user_data') === null)
-        {
-            return(
-                <Fragment>
-                <Button type="button" className="mr-sm-2" href="/login">Login</Button>
-                <Button type="button" className="mr-sm-2" href="/signup">Sign Up</Button>
-                </Fragment>
-            )
-        }
-        else
-        {
-            return(
-                <Fragment>
-                    <Button type="button" className="mr-sm-2" href="/cards">My Dashboard</Button>
-                    <Button type="button" variant="outline-primary" className="mr-sm-2" onClick={this.logout}>Log Out</Button>
-                </Fragment>
-            )
-        }
+    static propTypes = {
+        auth: PropTypes.object.isRequired
     }
 
     render()
     {
+        const { isAuthenticated, user } = this.props.auth;
+
+        const authLinks = (
+            <Fragment>
+                <NavItem>
+                    <span className="navbar-text mr-3">
+                        <strong>{ user ? `Welcome, ${user.FirstName} ${user.LastName}` : ''}</strong>
+                    </span>
+                </NavItem>
+                <NavItem>
+                    <Button type="button" className="mr-sm-2" href="/cards">My Dashboard</Button>
+                </NavItem>
+                <NavItem>
+                    <Logout />
+                </NavItem>
+            </Fragment>
+        );
+
+        const guestLinks = (
+            <Fragment>
+                <NavItem>
+                    <Button type="button" className="mr-sm-2" href="/login">Login</Button>
+                </NavItem>
+                <NavItem>
+                    <RegisterModal />
+                </NavItem>
+            </Fragment>
+        );
+
         return(
             <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="/">Budget Guru</Navbar.Brand>
-
-                {/* Deprecated until center adjustment can be figured out
-                <Navbar.Collapse className="justify-content-center">
-                    {this.configureHeaderName()}
-                </Navbar.Collapse>
-                */}   
+                <Navbar.Brand href="/">Budget Guru</Navbar.Brand>  
                 <Nav className="ml-auto">
-                    {this.configureHeaderButtons()}
+                    {isAuthenticated ? authLinks : guestLinks}
                 </Nav>
             </Navbar>
         );
     }
 }
 
-export default PageTitle;
+const mapStateToProps = state => ({
+    auth: state.auth
+})
+
+export default connect(mapStateToProps, null)(PageTitle);
