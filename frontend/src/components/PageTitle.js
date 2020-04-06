@@ -2,7 +2,6 @@ import React, { Fragment, Component } from 'react';
 import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import RegisterModal from './auth/RegisterModal';
 import Logout from './auth/Logout';
 
 export class PageTitle extends Component
@@ -37,7 +36,7 @@ export class PageTitle extends Component
                     <Button type="button" className="mr-sm-2" href="/login">Login</Button>
                 </NavItem>
                 <NavItem>
-                    <RegisterModal />
+                    <Button type="button" className="mr-sm-2" href="/signup">Sign Up</Button>
                 </NavItem>
             </Fragment>
         );

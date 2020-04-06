@@ -16,7 +16,7 @@ export default function(state = initialState, action) {
             };
         case CLEAR_ERRORS:
             return {
-                msg: {},
+                error: {},
                 status: null,
                 id: null
             };

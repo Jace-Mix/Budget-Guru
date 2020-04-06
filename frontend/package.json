@@ -1,5 +1,6 @@
 {
   "name": "budget-guru",
+  "homepage": "http://cop4331-project.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

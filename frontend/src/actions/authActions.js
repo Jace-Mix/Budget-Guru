@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { returnErrors } from './errorActions';
-import { USER_LOADED, USER_LOADING, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, REGISTER_SUCCESS, REGISTER_FAIL } from './types';
+import { USER_LOADED, USER_LOADING, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, REGISTER_SUCCESS, REGISTER_FAIL, AWAITING_CONFIRM } from './types';
 
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => 
@@ -20,7 +20,7 @@ export const loadUser = () => (dispatch, getState) =>
 }
 
 // Register User
-export const register = ({ FirstName, LastName, Email, UserName, Password }) => dispatch => 
+export const register = ({ FirstName, LastName, Email, UserName, Password, PasswordConfirm }) => dispatch => 
 {
     // Headers
     const config = {
@@ -30,10 +30,10 @@ export const register = ({ FirstName, LastName, Email, UserName, Password }) => 
     }
 
     // Request body
-    const body = JSON.stringify({ FirstName, LastName, Email, UserName, Password });
+    const body = JSON.stringify({ FirstName, LastName, Email, UserName, Password, PasswordConfirm });
 
     axios.post('/api/users', body, config).then(res => dispatch({
-        type: REGISTER_SUCCESS,
+        type: AWAITING_CONFIRM,
         payload: res.data
     })).catch(err => {
         dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'))
@@ -73,7 +73,57 @@ export const logout = () =>
     return {
         type: LOGOUT_SUCCESS
     }
+};
+
+export const confirm = () =>
+{
+    return {
+        type: REGISTER_SUCCESS
+    }
+};
+
+// Send password reset link
+export const resetLink = ({ Email }) => dispatch =>
+{
+    const config = {
+        headers: {
+            'Content-type': 'application/json'
+        }
+    }
+
+    const body = JSON.stringify({ Email });
+    axios.post('/api/auth/resetLink', body, config).then(res => dispatch({
+        type: AWAITING_CONFIRM,
+        payload: res.data
+    })).catch(err => {
+        dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'));
+        dispatch({
+            type: LOGIN_FAIL
+        })
+    });
 }
+
+// Reset password
+export const reset = ({ Email, Password, PasswordConfirm }) => dispatch =>
+{
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    const body = JSON.stringify({ Email, Password, PasswordConfirm });
+
+    axios.post('/api/auth/reset', body, config).then(res => dispatch({
+        type: AWAITING_CONFIRM,
+        payload: res.data
+    })).catch(err => {
+        dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'));
+        dispatch({
+            type: LOGIN_FAIL
+        })
+    });
+};
 
 // Setup config/headers and token
 export const tokenConfig = getState =>

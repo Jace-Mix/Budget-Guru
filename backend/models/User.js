@@ -23,11 +23,15 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    register_date: {
-        type: Date,
-        default: Date.now
+    RequestPasswordChange: {
+        type: Boolean,
+        default: false
+    },
+    Active: {
+        type: Boolean,
+        default: false
     }
 });
 
 // First argument is empty to prevent 'model()' from searching the database
-module.exports = User = mongoose.model('', UserSchema, 'Users');
+module.exports = User = mongoose.model(null, UserSchema, 'Users');

@@ -1,19 +1,34 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const config = require('config');
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 
 // User Model
 const User = require('../../models/User');
 
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASS
+    }
+});
+
+// Attempt to register user
 router.post('/', (req, res) =>
 {
-    const {FirstName, LastName, Email, UserName, Password} = req.body;
+    const {FirstName, LastName, Email, UserName, Password, PasswordConfirm} = req.body;
 
-    if (!FirstName || !LastName || !Email || !UserName || !Password)
+    if (!FirstName || !LastName || !Email || !UserName || !Password || !PasswordConfirm)
     {
         return res.status(400).json({error: "Please enter all fields"});
+    }
+
+    if (Password !== PasswordConfirm)
+    {
+        return res.status(400).json({error: "Passwords do not match"});
     }
 
     // Search for existing User
@@ -43,30 +58,54 @@ router.post('/', (req, res) =>
                 newUser.Password = hash;
                 newUser.save().then(user => 
                 {
+                    // JWT sign
                     jwt.sign(
                         {id: user.id},
-                        config.get('jwtSecret'),
+                        process.env.jwtSecret,
                         {expiresIn: 3600},
                         (err, token) =>
                         {
                             if (err) throw err;
-                            res.json(
-                            {
-                                token,
-                                user: 
+
+                            const url = `http://localhost:5000/api/users/confirmation/${token}`;
+
+                            transporter.sendMail({
+                                to: user.Email,
+                                subject: 'Budget Guru Confirm Email',
+                                html: `Please click this link to confirm your account: <a href="${url}">${url}</a>`
+                            }, function(err) {
+                                if (err) 
                                 {
-                                    id: user.id,
-                                    firstName: user.FirstName,
-                                    lastName: user.LastName,
-                                    email: user.Email
+                                    console.log('Error in sending email');
                                 }
-                            })
+                                else
+                                {
+                                    console.log('Email sent');
+                                }
+                            });
+
+                            return res.json({ msg: "An email has been sent to your email address to confirm your account" });
                         }
                     )
                 });
             })
         });
     });
+});
+
+router.get('/confirmation/:token', async (req, res) => 
+{
+    try
+    {
+        const decoded = jwt.verify(req.params.token, process.env.jwtSecret);
+        await User.findByIdAndUpdate(decoded.id, {Active: true});
+    }
+    catch (e)
+    {
+        res.redirect('http://localhost:3000/error');
+    }
+
+    return res.redirect('http://localhost:3000/confirmation');
 });
 
 module.exports = router;

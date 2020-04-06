@@ -14,11 +14,11 @@ class RegisterModal extends Component
         Email: '',
         UserName: '',
         Password: '',
-        error: null
+        error: null,
     };
 
     static propTypes = {
-        isAuthenticated: PropTypes.bool,
+        isAwaitingConfirm: PropTypes.bool,
         error: PropTypes.object.isRequired,
         register: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
@@ -26,24 +26,25 @@ class RegisterModal extends Component
 
     componentDidUpdate(prevProps)
     {
-        const { error, isAuthenticated } = this.props;
+        const { error, isAwaitingConfirm } = this.props;
         if (error !== prevProps.error)
         {
             // Check for register error
             if (error.id === 'REGISTER_FAIL')
             {
+                // {state: propType.ReducerState.error}
                 this.setState({ error: error.error.error});
             }
             else
             {
-                this.setState({ error: null});
+                this.setState({ error: null });
             }
         }
 
         // If authenticated, close modal
         if (this.state.modal)
         {
-            if (isAuthenticated)
+            if (isAwaitingConfirm)
             {
                 this.toggle();
             }
@@ -93,6 +94,7 @@ class RegisterModal extends Component
                     <ModalHeader toggle={this.toggle}>Register</ModalHeader>
                     <ModalBody>
                         { this.state.error ? (<Alert color="danger">{this.state.error}</Alert>) : null }
+                        { this.state.msg ? (<Alert color="success">{this.state.msg}</Alert>) : null}
                         <Form onSubmit={this.onSubmit}>
                             <FormGroup>
                                 <Label for="FirstName">First Name</Label>
@@ -117,7 +119,7 @@ class RegisterModal extends Component
 
 const mapStateToProps = state =>
 ({
-    isAuthenticated: state.auth.isAuthenticated,
+    isAwaitingConfirm: state.auth.isAwaitingConfirm,
     error: state.error
 });
 
