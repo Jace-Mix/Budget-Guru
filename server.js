@@ -19,12 +19,15 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 
 
-app.use(express.static(path.join(__dirname, 'frontend', 'build')));
-
-app.get('*', (req, res) =>
+if (process.env.NODE_ENV === 'production')
 {
-    res.sendFild(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
-});
+    app.use(express.static('frontend/build'));
+
+    app.get('*', (req, res) =>
+    {
+        res.sendFild(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+    });
+}
 
 
 // Listening on port 5000
