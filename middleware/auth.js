@@ -1,5 +1,6 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const config = require('config');
 
 // To be used for CRUD operations
 function auth(req, res, next)
@@ -15,7 +16,7 @@ function auth(req, res, next)
     try
     {
         // Verify token
-        const decoded = jwt.verify(token, process.env.jwtSecret);
+        const decoded = jwt.verify(token, config.get('jwtSecret'));
         // Add user from payload
         req.user = decoded;
         next();

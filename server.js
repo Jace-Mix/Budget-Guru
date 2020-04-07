@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const config = require('config');
 require('dotenv').config();
 
 // Express setup
@@ -8,7 +9,7 @@ const app = express();
 app.use(express.json());
 
 // Database connection
-const db = "mongodb+srv://Cody:1234@cop4331-group5-4sycb.mongodb.net/BudgetGuru?retryWrites=true&w=majority"
+const db = config.get('mongoURI');
 mongoose
     .connect(db, {useFindAndModify: false, useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log('MongoDB Connected...'))

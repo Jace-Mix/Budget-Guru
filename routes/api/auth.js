@@ -5,6 +5,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const auth = require('../../middleware/auth');
 const nodemailer = require('nodemailer');
+const config = require('config');
 
 // User Model
 const User = require('../../models/User');
@@ -12,8 +13,8 @@ const User = require('../../models/User');
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASS
+        user: config.get('EMAIL'),
+        pass: config.get('PASS')
     }
 });
 
@@ -49,7 +50,7 @@ router.post('/', (req, res) =>
 
             jwt.sign(
                 {id: user.id},
-                process.env.jwtSecret,
+                config.get('jwtSecret'),
                 {expiresIn: 3600},
                 (err, token) =>
                 {
@@ -100,7 +101,7 @@ router.post('/resetLink', (req, res) =>
 
         jwt.sign(
             {id: user.id},
-            process.env.jwtSecret,
+            config.get('jwtSecret'),
             {expiresIn: 3600},
             (err, token) =>
             {
@@ -135,7 +136,7 @@ router.get('/reset/:token', async (req, res) =>
 {
     try
     {
-        const decoded = jwt.verify(req.params.token, process.env.jwtSecret);
+        const decoded = jwt.verify(req.params.token, config.get('jwtSecret'));
         await User.findByIdAndUpdate(decoded.id, { RequestPasswordChange: true });
     }
     catch (e)
