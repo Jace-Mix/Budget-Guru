@@ -68,7 +68,15 @@ router.post('/', (req, res) =>
                         {
                             if (err) throw err;
 
-                            const url = `http://localhost:5000/api/users/confirmation/${token}`;
+                            var url;
+                            if (process.env.PORT)
+                            {
+                                url = `http://${process.env.PORT}/api/users/confirmation/${token}`;
+                            }
+                            else
+                            {
+                                url = `http://localhost:5000/api/users/confirmation/${token}`;
+                            }
 
                             transporter.sendMail({
                                 to: user.Email,

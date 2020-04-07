@@ -107,7 +107,15 @@ router.post('/resetLink', (req, res) =>
             {
                 if (err) throw err;
 
-                const url = `http://localhost:5000/api/auth/reset/${token}`;
+                var url;
+                if (process.env.PORT)
+                {
+                    url = `http://${process.env.PORT}/api/auth/reset/${token}`;
+                }
+                else
+                {
+                    url = `http://localhost:5000/api/auth/reset/${token}`;
+                }
 
                 transporter.sendMail({
                     to:user.Email,
