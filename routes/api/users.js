@@ -111,10 +111,24 @@ router.get('/confirmation/:token', async (req, res) =>
     }
     catch (e)
     {
-        res.redirect('http://localhost:3000/error');
+        if (process.env.NODE_ENV === "production")
+        {
+            return res.redirect('https://cop4331test.herokuapp.com/error');
+        }
+        else
+        {
+            return res.redirect('http://localhost:3000/error');
+        }
     }
 
-    return res.redirect('http://localhost:3000/confirmation');
+    if (process.env.NODE_ENV === "production")
+    {
+        return res.redirect('https://cop4331test.herokuapp.com/confirmation');
+    }
+    else
+    {
+        return res.redirect('http://localhost:3000/confirmation');
+    }
 });
 
 module.exports = router;

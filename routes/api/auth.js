@@ -151,21 +151,21 @@ router.get('/reset/:token', async (req, res) =>
     {
         if (process.env.NODE_ENV === "production")
         {
-            res.redirect('http://cop4331test.herokuapp.com/error');
+            return res.redirect('https://cop4331test.herokuapp.com/error');
         }
         else
         {
-            res.redirect('http://localhost:3000/error');
+            return res.redirect('http://localhost:3000/error');
         }
     }
 
     if (process.env.NODE_ENV === "production")
     {
-        res.redirect('http://cop4331test.herokuapp.com/reset');
+        return res.redirect('https://cop4331test.herokuapp.com/reset');
     }
     else
     {
-        res.redirect('http://localhost:3000/reset');
+        return res.redirect('http://localhost:3000/reset');
     }
 });
 
