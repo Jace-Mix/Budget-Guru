@@ -69,9 +69,9 @@ router.post('/', (req, res) =>
                             if (err) throw err;
 
                             var url;
-                            if (process.env.PORT)
+                            if (process.env.NODE_ENV === "production")
                             {
-                                url = `http://${process.env.PORT}/api/users/confirmation/${token}`;
+                                url = `http://cop4331test.herokuapp.com/api/users/confirmation/${token}`;
                             }
                             else
                             {

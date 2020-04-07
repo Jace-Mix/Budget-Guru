@@ -108,9 +108,9 @@ router.post('/resetLink', (req, res) =>
                 if (err) throw err;
 
                 var url;
-                if (process.env.PORT)
+                if (process.env.NODE_ENV === "production")
                 {
-                    url = `http://${process.env.PORT}/api/auth/reset/${token}`;
+                    url = `http://cop4331test.herokuapp.com/api/auth/reset/${token}`;
                 }
                 else
                 {
