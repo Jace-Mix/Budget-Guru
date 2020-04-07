@@ -18,15 +18,14 @@ mongoose
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 
-if (process.env.NODE_ENV === 'production')
-{
-    app.use(express.static('../frontend/build'));
 
-    app.get('*', (req, res) =>
-    {
-        res.sendFild(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
-    });
-}
+app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+
+app.get('*', (req, res) =>
+{
+    res.sendFild(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+});
+
 
 // Listening on port 5000
 const port = process.env.PORT || 5000;
