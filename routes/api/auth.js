@@ -149,10 +149,24 @@ router.get('/reset/:token', async (req, res) =>
     }
     catch (e)
     {
-        res.redirect('http://localhost:3000/error');
+        if (process.env.NODE_ENV === "production")
+        {
+            res.redirect('http://cop4331test.herokuapp.com/error');
+        }
+        else
+        {
+            res.redirect('http://localhost:3000/error');
+        }
     }
 
-    res.redirect('http://localhost:3000/reset');
+    if (process.env.NODE_ENV === "production")
+    {
+        res.redirect('http://cop4331test.herokuapp.com/reset');
+    }
+    else
+    {
+        res.redirect('http://localhost:3000/reset');
+    }
 });
 
 // reset password
