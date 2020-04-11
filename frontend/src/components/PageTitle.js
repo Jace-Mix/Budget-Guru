@@ -22,7 +22,7 @@ export class PageTitle extends Component
                     </span>
                 </NavItem>
                 <NavItem>
-                    <Button type="button" className="mr-sm-2" href="/cards">My Dashboard</Button>
+                    <Button type="button" className="mr-sm-2" href="/dashboard">My Dashboard</Button>
                 </NavItem>
                 <NavItem>
                     <Logout />

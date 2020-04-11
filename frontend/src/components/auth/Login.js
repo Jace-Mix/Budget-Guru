@@ -35,7 +35,7 @@ export class Login extends Component
 
         if (isAuthenticated)
         {
-            window.location.href = '/cards';
+            window.location.href = '/dashboard';
         }
     }
 

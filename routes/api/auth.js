@@ -7,7 +7,7 @@ const auth = require('../../middleware/auth');
 const nodemailer = require('nodemailer');
 const config = require('config');
 
-// User Model
+// Models
 const User = require('../../models/User');
 
 let transporter = nodemailer.createTransport({
@@ -145,6 +145,7 @@ router.get('/reset/:token', async (req, res) =>
     try
     {
         const decoded = jwt.verify(req.params.token, config.get('jwtSecret'));
+        console.log(decoded);
         await User.findByIdAndUpdate(decoded.id, { RequestPasswordChange: true });
     }
     catch (e)

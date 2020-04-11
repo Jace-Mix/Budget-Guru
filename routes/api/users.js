@@ -8,6 +8,9 @@ const config = require('config');
 
 // User Model
 const User = require('../../models/User');
+const Account = require('../../models/Account');
+const Categories = require('../../models/Categories');
+
 
 let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -108,6 +111,18 @@ router.get('/confirmation/:token', async (req, res) =>
     {
         const decoded = jwt.verify(req.params.token, config.get('jwtSecret'));
         await User.findByIdAndUpdate(decoded.id, {Active: true});
+
+        const account = new Account({
+            AccountUser: decoded.id
+        });
+
+        account.save().then(account =>
+        {
+            const categories = new Categories({
+                AccountFK: account.id
+            })
+            categories.save();
+        });
     }
     catch (e)
     {
