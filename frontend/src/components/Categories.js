@@ -56,6 +56,7 @@ export class Categories extends Component
             window.location.href = '/dashboard';
         }
 
+
         if (account !== prevProps.account && !this.state.setUpAccount)
         {
             if(account)
@@ -63,20 +64,20 @@ export class Categories extends Component
                 this.setState({
                     MonthlyIncome: account.MonthlyIncome,
                     MonthlyBill: account.MonthlyBill,
-                    Clothing: account.Category.Clothing,
-                    FoodDrink: account.Category.FoodDrink,
-                    Home: account.Category.Home,
-                    Entertainment: account.Category.Entertainment,
-                    Transportation: account.Category.Transportation,
-                    Health: account.Category.Health,
-                    Misc: account.Category.Misc,
-                    CategoryPercent: parseInt(account.Category.Clothing)+
-                        parseInt(account.Category.FoodDrink)+
-                        parseInt(account.Category.Home)+
-                        parseInt(account.Category.Entertainment)+
-                        parseInt(account.Category.Transportation)+
-                        parseInt(account.Category.Health)+
-                        parseInt(account.Category.Misc),
+                    Clothing: account.PercentCategory.Clothing,
+                    FoodDrink: account.PercentCategory.FoodDrink,
+                    Home: account.PercentCategory.Home,
+                    Entertainment: account.PercentCategory.Entertainment,
+                    Transportation: account.PercentCategory.Transportation,
+                    Health: account.PercentCategory.Health,
+                    Misc: account.PercentCategory.Misc,
+                    CategoryPercent: parseInt(account.PercentCategory.Clothing)+
+                        parseInt(account.PercentCategory.FoodDrink)+
+                        parseInt(account.PercentCategory.Home)+
+                        parseInt(account.PercentCategory.Entertainment)+
+                        parseInt(account.PercentCategory.Transportation)+
+                        parseInt(account.PercentCategory.Health)+
+                        parseInt(account.PercentCategory.Misc),
                     setUpAccount: true
                 })
             }

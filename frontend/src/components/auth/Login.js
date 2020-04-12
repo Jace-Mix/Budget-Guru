@@ -65,6 +65,7 @@ export class Login extends Component
             <div id="loginDiv">
            <Card style={{width: '60rem', margin: 'auto', padding: '25px'}}>
             <Card.Header className="text-center" as="h5">Login</Card.Header>
+            <br />
            <Form className="mx-sm-3">
            {this.state.error ? (<Alert variant="danger" style={{ marginTop: "1rem"}}>{this.state.error}</Alert>) : null}
             <Form.Group controlId="formBasicUsername">

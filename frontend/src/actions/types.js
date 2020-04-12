@@ -20,6 +20,11 @@ export const CLEAR_ERRORS = "CLEAR_ERRORS";
 // DashboardReducer
 export const HAS_DASHBOARD = "HAS_DASHBOARD";
 export const NO_DASHBOARD = "NO_DASHBOARD";
+export const SPENT_SUCCESS = "SPENT_SUCCESS";
+export const SPENT_FAIL = "SPENT_FAIL";
+export const EARNED_SUCCESS = "EARNED_SUCCESS";
+export const EARNED_FAIL = "EARNED_FAIL";
+export const CLEAR_MSG = "CLEAR_MSG";
 
 // CategoriesReducer
 export const CATEGORY_SUCCESS = "CATEGORY_SUCCESS";

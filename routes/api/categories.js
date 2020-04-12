@@ -26,8 +26,6 @@ router.post('/update', [auth,
         return res.status(400).json({error: "All fields must be numbers"});
     }
 
-    // Emtpy Fields
-
     // Monthly bill can't be larger than Monthly income
     if (MonthlyIncome - MonthlyBill <= 0)
     {
@@ -48,48 +46,75 @@ router.post('/update', [auth,
     }
 
     // Update Budget
-    Account.findOneAndUpdate({ AccountUser: req.user.id }, { MonthlyIncome, MonthlyBill, Active: true }, {new: true}).then(account =>
+    Account.findOne({ AccountUser: req.user.id }).then(account =>
     {
+        if (!account)
+        {
+            return res.status(400).json({ error: "Error: Could not update budget" });
+        }
+
         // Update Categories
-        Categories.findOneAndUpdate({ AccountFK: account.id }, {'$set': {
-            'Category.Clothing': Clothing,
-            'Category.FoodDrink': FoodDrink,
-            'Category.Home': Home,
-            'Category.Entertainment': Entertainment,
-            'Category.Transportation': Transportation,
-            'Category.Health': Health,
-            'Category.Misc': Misc
-        }}).then(categoryCallback =>
+        Categories.findOne({ AccountFK: account.id }).then(categoryCallback =>
         {
             if (!categoryCallback)
             {
                 return res.status(400).json({ error: "Error: Could not update categories" })
             }
-        });
-        if (!account)
-        {
-            return res.status(400).json({ error: "Error: Could not update budget" });
-        }
-        res.json({
-            account:
+
+            var budget = parseInt(MonthlyIncome) - parseInt(MonthlyBill) + parseInt(account.Earned) - parseInt(account.Spent);
+            account.Budget = budget;
+            account.CalculatedCategory.Clothing = budget * (parseInt(Clothing).toFixed(2) / 100);
+            account.CalculatedCategory.FoodDrink = budget * (parseInt(FoodDrink).toFixed(2) / 100);
+            account.CalculatedCategory.Home = budget * (parseInt(Home).toFixed(2) / 100);
+            account.CalculatedCategory.Entertainment = budget * (parseInt(Entertainment).toFixed(2) / 100);
+            account.CalculatedCategory.Transportation = budget * (parseInt(Transportation).toFixed(2) / 100);
+            account.CalculatedCategory.Health = budget * (parseInt(Health).toFixed(2) / 100);
+            account.CalculatedCategory.Misc = budget * (parseInt(Misc).toFixed(2) / 100);
+            account.MonthlyIncome = MonthlyIncome;
+            account.MonthlyBill = MonthlyBill;
+            account.Active = true;
+
+            categoryCallback.PercentCategory.Clothing = Clothing;
+            categoryCallback.PercentCategory.FoodDrink = FoodDrink;
+            categoryCallback.PercentCategory.Home = Home;
+            categoryCallback.PercentCategory.Entertainment = Entertainment;
+            categoryCallback.PercentCategory.Transportation = Transportation;
+            categoryCallback.PercentCategory.Health = Health;
+            categoryCallback.PercentCategory.Misc = Misc;
+            
+            categoryCallback.save().then(cat =>
             {
-                Active: account.Active,
-                MonthlyIncome: account.MonthlyIncome,
-                MonthlyBill: account.MonthlyBill,
-            }
+                account.save().then(acc => 
+                {
+                    res.json({
+                        Active: acc.Active,
+                        MonthlyIncome: acc.MonthlyIncome,
+                        MonthlyBill: acc.MonthlyBill,
+                        Budget: acc.Budget,
+                        Earned: acc.Earned,
+                        Spent: acc.Spent,
+                        CalculatedCategory: acc.CalculatedCategory,
+                        PercentCategory: cat.PercentCategory
+                    })
+                })
+            })
         })
     })
 });
 
 router.get('/getCategories', auth, (req, res) =>
 {
-    Account.findOne({AccountUser: req.user.id}).select('MonthlyIncome MonthlyBill Active').then(account=> {
-        Categories.findOne({AccountFK: account.id}).select('Category').then(categories => {
+    Account.findOne({AccountUser: req.user.id}).select('-AccountUser').then(account=> {
+        Categories.findOne({AccountFK: account.id}).select('PercentCategory').then(categories => {
             const deliverable = {
                 Active: account.Active,
+                Budget: account.Budget,
+                Earned: account.Earned,
+                Spent: account.Spent,
                 MonthlyIncome: account.MonthlyIncome,
                 MonthlyBill: account.MonthlyBill,
-                Category: categories.Category
+                CalculatedCategory: account.CalculatedCategory,
+                PercentCategory: categories.PercentCategory
             };
             res.json(deliverable);
         });

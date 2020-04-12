@@ -6,24 +6,34 @@ const CategoriesSchema = new Schema({
         type: String,
         required: true
     },
-    Category: {
-        type: {
-            "Clothing": Number,
-            "FoodDrink": Number,
-            "Home": Number,
-            "Entertainment": Number,
-            "Transportation": Number,
-            "Health": Number,
-            "Misc": Number
+    PercentCategory: {
+        Clothing: {
+            type: Number,
+            default: 0
         },
-        default: {
-            "Clothing": 0,
-            "FoodDrink": 0,
-            "Home": 0,
-            "Entertainment": 0,
-            "Transportation": 0,
-            "Health": 0,
-            "Misc": 0
+        FoodDrink: {
+            type: Number,
+            default: 0
+        },
+        Home: {
+            type: Number,
+            default: 0
+        },
+        Entertainment: {
+            type: Number,
+            default: 0
+        },
+        Transportation: {
+            type: Number,
+            default: 0
+        },
+        Health: {
+            type: Number,
+            default: 0
+        },
+        Misc: {
+            type: Number,
+            default: 0
         }
     }
 });

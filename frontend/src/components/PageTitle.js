@@ -18,7 +18,7 @@ export class PageTitle extends Component
             <Fragment>
                 <NavItem>
                     <span className="navbar-text mr-3">
-                        <strong>{ user ? `Welcome, ${user.FirstName} ${user.LastName}` : ''}</strong>
+                        <strong style={{fontSize: '20px'}}>{ user ? `Welcome, ${user.FirstName} ${user.LastName}` : ''}</strong>
                     </span>
                 </NavItem>
                 <NavItem>
