@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { returnErrors } from './errorActions';
-import { CATEGORY_SUCCESS, CATEGORY_FAIL, CATEGORY_LOADING, CATEGORY_LOADED, CATEGORY_ERROR, HAS_DASHBOARD, NO_DASHBOARD } from './types';
+import { CATEGORY_SUCCESS, CATEGORY_FAIL, CATEGORY_LOADING, CATEGORY_LOADED, CATEGORY_ERROR, HAS_DASHBOARD, NO_DASHBOARD, RESET_SUCCESS, RESET_FAIL } from './types';
 import { tokenConfig } from './authActions';
 
 export const updateCategories = ({ MonthlyIncome, MonthlyBill, Clothing, FoodDrink, Home, Entertainment, Transportation, Health, Misc }) => (dispatch, getState) =>
@@ -36,6 +36,20 @@ export const loadCategories = () => (dispatch, getState) =>
         dispatch(returnErrors(err.response.data, err.response.status));
         dispatch({
             type: CATEGORY_ERROR
+        })
+    })
+}
+
+export const resetCategories = () => (dispatch, getState) =>
+{
+    axios.get('/api/categories/resetCategories', tokenConfig(getState)).then(res =>
+    {
+        dispatch({ type: RESET_SUCCESS, payload: res.data });
+        dispatch({ type: NO_DASHBOARD });
+    }).catch(err => {
+        dispatch(returnErrors(err.response.data, err.response.status, 'RESET_FAIL'));
+        dispatch({
+            type: RESET_FAIL
         })
     })
 }

@@ -121,4 +121,39 @@ router.get('/getCategories', auth, (req, res) =>
     })
 });
 
+router.get('/resetCategories', auth, (req, res) =>
+{
+    Account.findOne({AccountUser: req.user.id}).then(account => {
+        Categories.findOne({AccountFK: account.id}).then(categories => {
+            account.Active = false;
+            account.MonthlyIncome = 0;
+            account.MonthlyBill = 0;
+            account.Spent = 0;
+            account.Earned = 0;
+            account.Budget = 0;
+            account.CalculatedCategory.Clothing = categories.PercentCategory.Clothing = 0;
+            account.CalculatedCategory.FoodDrink = categories.PercentCategory.FoodDrink = 0;
+            account.CalculatedCategory.Home = categories.PercentCategory.Home = 0;
+            account.CalculatedCategory.Entertainment = categories.PercentCategory.Entertainment = 0;
+            account.CalculatedCategory.Transportation = categories.PercentCategory.Transportation = 0;
+            account.CalculatedCategory.Health = categories.PercentCategory.Health = 0;
+            account.CalculatedCategory.Misc = categories.PercentCategory.Misc = 0;
+            categories.save().then(cat => {
+                account.save().then(acc =>{
+                    res.json({
+                        Active: acc.Active,
+                        MonthlyIncome: acc.MonthlyIncome,
+                        MonthlyBill: acc.MonthlyBill,
+                        Budget: acc.Budget,
+                        Earned: acc.Earned,
+                        Spent: acc.Spent,
+                        CalculatedCategory: acc.CalculatedCategory,
+                        PercentCategory: cat.PercentCategory
+                    });
+                })
+            });
+        })
+    })
+});
+
 module.exports = router;

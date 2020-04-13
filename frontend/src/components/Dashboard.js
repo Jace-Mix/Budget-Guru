@@ -258,7 +258,7 @@ export class Dashboard extends Component
                                                             <Form.Check type="radio" name="groupChecks" value="Entertainment" checked={this.state.Category === 'Entertainment'} onChange={this.radioChange} label="Entertainment"/>
                                                             <Form.Check type="radio" name="groupChecks" value="Transportation" checked={this.state.Category === 'Transportation'} onChange={this.radioChange} label="Transportation"/>
                                                             <Form.Check type="radio" name="groupChecks" value="Health" checked={this.state.Category === 'Health'} onChange={this.radioChange} label="Health"/>
-                                                            <Form.Check type="radio" name="groupChecks" value="Miscellaneous" checked={this.state.Category === 'Miscellaneous'} onChange={this.radioChange} label="Miscellaneous"/>
+                                                            <Form.Check type="radio" name="groupChecks" value="Misc" checked={this.state.Category === 'Misc'} onChange={this.radioChange} label="Miscellaneous"/>
                                                             <Button variant="primary" style={{ marginTop: '2rem' }} onClick={this.onSubmitSpent}>Update Budget</Button>
                                                         </Form.Group>
                                                     </Form>

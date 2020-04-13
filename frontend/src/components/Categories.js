@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { Card, Button, InputGroup, FormControl, Form, Container, Alert } from 'react-bootstrap';
+import { Card, Button, InputGroup, FormControl, Form, Container, Alert, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { updateCategories, loadCategories } from '../actions/categoriesAction';
+import { updateCategories, loadCategories, resetCategories } from '../actions/categoriesAction';
 import PropTypes from 'prop-types';
 import store from '../store';
+import { TOGGLE_RESET } from '../actions/types';
 
 export class Categories extends Component
 {
@@ -25,8 +26,10 @@ export class Categories extends Component
     static propTypes = {
         account: PropTypes.object,
         createdBudget: PropTypes.bool,
+        didReset: PropTypes.bool.isRequired,
         hasDashboard: PropTypes.bool.isRequired,
         updateCategories: PropTypes.func.isRequired,
+        resetCategories: PropTypes.func.isRequired,
         error: PropTypes.object.isRequired
     }
 
@@ -37,7 +40,7 @@ export class Categories extends Component
 
     componentDidUpdate(prevProps)
     {
-        const { error, createdBudget, account } = this.props;
+        const { error, createdBudget, account, didReset } = this.props;
 
         if (error !== prevProps.error)
         {
@@ -56,9 +59,9 @@ export class Categories extends Component
             window.location.href = '/dashboard';
         }
 
-
-        if (account !== prevProps.account && !this.state.setUpAccount)
+        if (account !== prevProps.account && (!this.state.setUpAccount || didReset))
         {
+            store.dispatch({type: TOGGLE_RESET});
             if(account)
             {
                 this.setState({
@@ -167,6 +170,13 @@ export class Categories extends Component
         this.props.updateCategories(categories);
     }
 
+    onSubmitReset = e =>
+    {
+        e.preventDefault();
+
+        this.props.resetCategories();
+    }
+
     render()
     {
         const monthlyIncome = `$${this.state.MonthlyIncome}`;
@@ -201,7 +211,14 @@ export class Categories extends Component
 
         const updateButton = (
             <Fragment>
-                <Button variant="primary" onClick={this.onSubmit}>Update Budget Guru</Button>
+                <Row>
+                    <Col>
+                        <Button variant="primary" onClick={this.onSubmit}>Update Budget Guru</Button>
+                    </Col>
+                    <Col>
+                        <Button style={{marginLeft: '15rem'}}variant="danger" onClick={this.onSubmitReset}>Reset Budget Guru</Button>
+                    </Col>
+                </Row>
             </Fragment>
         );
 
@@ -282,9 +299,10 @@ export class Categories extends Component
 const mapStateToProps = state =>
 ({
     error: state.error,
+    didReset: state.categories.didReset,
     createdBudget: state.categories.createdBudget,
     hasDashboard: state.dashboard.hasDashboard,
     account: state.categories.account
 });
 
-export default connect(mapStateToProps, { updateCategories })(Categories);
+export default connect(mapStateToProps, { updateCategories, resetCategories })(Categories);

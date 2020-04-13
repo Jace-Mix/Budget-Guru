@@ -1,9 +1,10 @@
-import { CATEGORY_SUCCESS, CATEGORY_FAIL, CATEGORY_LOADING, CATEGORY_LOADED, CATEGORY_ERROR } from '../actions/types';
+import { CATEGORY_SUCCESS, CATEGORY_FAIL, CATEGORY_LOADING, CATEGORY_LOADED, CATEGORY_ERROR, RESET_SUCCESS, RESET_FAIL, TOGGLE_RESET } from '../actions/types';
 
 const initialState = {
     createdBudget: false,
     isLoading: false,
-    account: null,
+    didReset: false,
+    account: null
 };
 
 export default function(state = initialState, action)
@@ -21,6 +22,17 @@ export default function(state = initialState, action)
                 isLoading: false,
                 account: action.payload
             }
+        case RESET_SUCCESS:
+            return {
+                ...state,
+                account: action.payload,
+                didReset: true,
+            }
+        case TOGGLE_RESET:
+            return {
+                ...state,
+                didReset: false
+            }
         case CATEGORY_SUCCESS:
             return {
                 ...state,
@@ -29,9 +41,11 @@ export default function(state = initialState, action)
             }
         case CATEGORY_ERROR:
         case CATEGORY_FAIL:
+        case RESET_FAIL:
             return {
                 ...state,
                 createdBudget: false,
+                didReset: false,
                 account: null
             }
         default:
