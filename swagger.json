@@ -9,7 +9,7 @@
             "url": "https://opensource.org/licenses/MIT"
         }
     },
-    "host": "http://cop4331test.herokuapp.com",
+    "host": "cop4331test.herokuapp.com",
     "basePath": "",
     "tags": [
         {
