@@ -36,7 +36,7 @@ function Welcome()
             {/* Start: Section Header */}
             <div className="section-header col-md-6" style={{margin: "-5% 0% 5% 25%"}}>
               <h2 className="section-heading">Why Choose Us?</h2>
-              <p className="sub-heading">Create your own budget to better track your monthly allowances along with personal tips to help better your spending habits daily.</p>
+              <p className="sub-heading">Create your own budget to better track your monthly allowances, along with personal tips to help better your spending habits daily.</p>
             </div>
             {/* End: Section Header */}
             <div className="clearfix" />
@@ -47,7 +47,7 @@ function Welcome()
                     <i className="icon features-icon icons8-clock" />
                     <h6 className="title">Quick Response</h6>
                     <div className="detail">
-                      <p>Got a problem? were on our way, contact our helpful customer service that is available 24/7</p>
+                      <p>Got a problem? We're on our way! Contact our helpful customer service that is available 24/7.</p>
                     </div>
                   </div> {/* End: .inner */}
                 </div> {/* End: .each-features */}
@@ -56,7 +56,7 @@ function Welcome()
                     <i className="icon features-icon icons8-bullish" />
                     <h6 className="title">Savings Growth</h6>
                     <div className="detail">
-                      <p>Saving has never felt so good, with more money in your pocket you might not know what to do with it</p>
+                      <p>Saving has never felt so good! With more money in your pocket, you might not know what to do with it!</p>
                     </div>
                   </div> {/* End: .inner */}
                 </div> {/* End: .each-features */}
@@ -65,7 +65,7 @@ function Welcome()
                     <i className="icon features-icon icons8-calendar" />
                     <h6 className="title">Charts Don't Lie</h6>
                     <div className="detail">
-                      <p>With our chart you will be able to easily track your spending and no where your money is going</p>
+                      <p>With our chart, you will be able to easily track your spending and know where your money is going.</p>
                     </div>
                   </div> {/* End: .inner */}
                 </div> {/* End: .each-features */}
@@ -74,7 +74,7 @@ function Welcome()
                     <i className="icon features-icon icons8-coins" />
                     <h6 className="title">Tips Anyone?</h6>
                     <div className="detail">
-                      <p>We provide you with daily tips to make sure not a penny is wasted on our watch</p>
+                      <p>We provide you with daily tips to make sure not a penny is wasted on your watch.</p>
                     </div>
                   </div> {/* End: .inner */}
                 </div> {/* End: .each-features */}
@@ -83,7 +83,7 @@ function Welcome()
                     <i className="icon features-icon icons8-wine-glass" />
                     <h6 className="title">Most Popular</h6>
                     <div className="detail">
-                      <p>Track your spending through our site or our mobile app were here for you</p>
+                      <p>Track your spending through our site or our mobile app. We're here for you!</p>
                     </div>
                   </div> {/* End: .inner */}
                 </div> {/* End: .each-features */}
@@ -92,7 +92,7 @@ function Welcome()
                     <i className="icon features-icon icons8-privacy" />
                     <h6 className="title">Secure</h6>
                     <div className="detail">
-                      <p>Your financial information is very important to us so we make sure to keep it safe.</p>
+                      <p>Your financial information is very important to us, so we make sure to keep it safe.</p>
                     </div>
                   </div> {/* End: .inner */}
                 </div> {/* End: .each-features */}
