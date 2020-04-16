@@ -199,7 +199,7 @@ export class Categories extends Component
 
         const createButton = (
             <Fragment>
-                <Button variant="primary" onClick={this.onSubmit}>Add Budget Guru</Button>
+                <Button variant="success" onClick={this.onSubmit}>Add Budget Guru</Button>
             </Fragment>
         )
 
@@ -213,7 +213,7 @@ export class Categories extends Component
             <Fragment>
                 <Row>
                     <Col>
-                        <Button variant="primary" onClick={this.onSubmit}>Update Budget Guru</Button>
+                        <Button variant="success" onClick={this.onSubmit}>Update Budget Guru</Button>
                     </Col>
                     <Col>
                         <Button style={{marginLeft: '15rem'}}variant="danger" onClick={this.onSubmitReset}>Reset Budget Guru</Button>

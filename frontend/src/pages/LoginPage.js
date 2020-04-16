@@ -6,9 +6,8 @@ import Login from '../components/auth/Login';
 const LoginPage = () =>
 {
     return(
-        <div>
+        <div style={{background: "rgb(214, 245, 230)", paddingBottom: "5.1%"}}>
             <PageTitle />
-            <br />
             <Login />
         </div>
     );

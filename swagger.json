@@ -1,0 +1,718 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Budget Guru API Swagger Documentation",
+        "description": "Test",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "http://cop4331test.herokuapp.com",
+    "basePath": "",
+    "tags": [
+        {
+            "name": "User Authorization",
+            "description": "API for new/returning users"
+        },
+        {
+            "name": "Dashboard Actions",
+            "description": "API for actions that occur in user's dashboard"
+        },
+        {
+            "name": "Budget Guru Configurations",
+            "description": "API for creating/updating the user's budget guru"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json",
+        "x-auth-token"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/api/auth/": {
+            "post": {
+                "tags": [
+                    "User Authorization"
+                ],
+                "summary": "Attempt to log into Budget Guru",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Login credentials",
+                        "schema": {
+                            "properties": {
+                                "UserName": {"type": "string"},
+                                "Password": {"type": "string"}
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Login",
+                        "schema": {
+                            "properties": {
+                                "token": { "type": "string" },
+                                "user": {
+                                    "properties": {
+                                        "id": {"type": "number"},
+                                        "FirstName": {"type": "string"},
+                                        "LastName": {"type": "string"},
+                                        "Email": {"type": "string"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Unsuccessful Login",
+                        "schema": {
+                            "properties": {
+                                "error": {"type": "string"}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/user": {
+            "get": {
+                "tags": [
+                    "User Authorization"
+                ],
+                "summary": "Retrieves user based on JWT",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-auth-token",
+                        "required": true,
+                        "description": "Authorization token",
+                        "type": "string"   
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Acquired User",
+                        "schema": {
+                            "properties": {
+                                "RequestPasswordChange": {"type": "boolean"},
+                                "Active": {"type": "boolean"},
+                                "_id": {"type": "number"},
+                                "FirstName": {"type": "string"},
+                                "LastName": {"type": "string"},
+                                "Email": {"type": "string"},
+                                "UserName": {"type": "string"},
+                                "__v": {"type": "number"}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Could not acquire User",
+                        "schema": {
+                            "properties": {
+                                "error": {"type": "string"}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/resetLink": {
+            "post": {
+                "tags": [
+                    "User Authorization"
+                ],
+                "summary": "Sends email link to reset password",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Provide email",
+                        "schema": {
+                            "properties": {
+                                "Email": {"type": "string"}
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sent the reset link to the provided email",
+                        "schema": {
+                            "properties": {
+                                "msg": {"type": "string"}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Could not send the reset link",
+                        "schema": {
+                            "properties": {
+                                "error": {"type": "string"}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/reset/{token}": {
+            "get": {
+                "tags": [
+                    "User Authorization"
+                ],
+                "summary": "Confirm email reset link and redirect",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "token",
+                        "required": true,
+                        "description": "JWT token confirmation",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Confirmed reset link",
+                        "redirect": "http://cop4331test.herokuapp.com/reset"
+                    },
+                    "400": {
+                        "description": "Failed confirmation on reset link",
+                        "redirect": "http://cop4331test.herokuapp.com/error"
+                    }
+                }
+            }
+        },
+        "/api/auth/reset": {
+            "post": {
+                "tags": [
+                    "User Authorization"
+                ],
+                "summary": "Attempts to reset password based on valid email address",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "New password for email",
+                        "schema": {
+                            "properties": {
+                                "Email": {"type": "string"},
+                                "Password": {"type": "string"},
+                                "PasswordConfirm": {"type": "string"}
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password has been changed for the account",
+                        "schema": {
+                            "properties": {
+                                "msg": {"type": "string"}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Could not reset password",
+                        "schema": {
+                            "properties": {
+                                "error": {"type": "string"}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/": {
+            "post": {
+                "tags": [
+                    "User Authorization"
+                ],
+                "summary": "Register new user into database",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Registration form",
+                        "schema": {
+                            "properties": {
+                                "FirstName": {"type": "string"},
+                                "LastName": {"type": "string"},
+                                "Email": {"type": "string"},
+                                "UserName": {"type": "string"},
+                                "Password": {"type": "string"},
+                                "PasswordConfirm": {"type": "string"}
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User inserted into database",
+                        "schema": {
+                            "properties": {
+                                "msg": {"type": "string"}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Could not be inserted into database",
+                        "schema": {
+                            "properties": {
+                                "error": {"type": "string"}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/confirmation/{token}": {
+            "get": {
+                "tags": [
+                    "User Authorization"
+                ],
+                "summary": "Confirms registration of user through email link",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "token",
+                        "required": true,
+                        "description": "JWT token confirmation",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User's account confirmed and registered",
+                        "redirect": "http://cop4331test.herokuapp.com/confirmation"
+                    },
+                    "400": {
+                        "description": "User's account could not be registered",
+                        "redirect": "http://cop4331test.herokuapp.com/error"
+                    }
+                }
+            }
+        },
+        "/api/dashboard/updateSpent": {
+            "post": {
+                "tags": [
+                    "Dashboard Actions"
+                ],
+                "summary": "Adds value in spent container for the account",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "New spent amount and category",
+                        "schema": {
+                            "properties": {
+                                "Spent": "number",
+                                "Category": "string"
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "x-auth-token",
+                        "required": true,
+                        "description": "Authorization token",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Spent amount added",
+                        "schema": {
+                            "properties": {
+                                "msg": {"type": "string"},
+                                "account": {
+                                    "properties": {
+                                        "Active": {"type": "boolean"},
+                                        "Budget": {"type": "number"},
+                                        "Earned": {"type": "number"},
+                                        "Spent": {"type": "number"},
+                                        "MonthlyIncome": {"type": "number"},
+                                        "MonthlyBill": {"type": "number"},
+                                        "CalculatedCategory": {
+                                            "properties": {
+                                                "Clothing": {"type": "number"},
+                                                "FoodDrink": {"type": "number"},
+                                                "Home": {"type": "number"},
+                                                "Entertainment": {"type": "number"},
+                                                "Transportation": {"type": "number"},
+                                                "Health": {"type": "number"},
+                                                "Misc": {"type": "number"}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Unable to add spent amount",
+                        "schema": {
+                            "properties": {
+                                "error": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/dashboard/updateEarned": {
+            "post": {
+                "tags": [
+                    "Dashboard Actions"
+                ],
+                "summary": "Earned amount added to budget",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "New earned amount",
+                        "schema": {
+                            "properties": {
+                                "Earned": {"type": "number"}
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "x-auth-token",
+                        "required": true,
+                        "description": "Authorization token",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Earned amount added",
+                        "schema": {
+                            "properties": {
+                                "msg": {"type": "string"},
+                                "account": {
+                                    "properties": {
+                                        "Active": {"type": "boolean"},
+                                        "Budget": {"type": "number"},
+                                        "Earned": {"type": "number"},
+                                        "Spent": {"type": "number"},
+                                        "MonthlyIncome": {"type": "number"},
+                                        "MonthlyBill": {"type": "number"},
+                                        "CalculatedCategory": {
+                                            "properties": {
+                                                "Clothing": {"type": "number"},
+                                                "FoodDrink": {"type": "number"},
+                                                "Home": {"type": "number"},
+                                                "Entertainment": {"type": "number"},
+                                                "Transportation": {"type": "number"},
+                                                "Health": {"type": "number"},
+                                                "Misc": {"type": "number"}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Unable to add earned amount",
+                        "schema": {
+                            "properties": {
+                                "error": {"type": "string"}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/categories/update": {
+            "post": {
+                "tags": [
+                    "Budget Guru Configurations"
+                ],
+                "summary": "Calibrates budget guru on user's needs",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Calibrated categories",
+                        "schema": {
+                            "properties": {
+                                "MonthlyIncome": {"type": "number"},
+                                "MonthlyBill": {"type": "number"},
+                                "Clothing": {"type": "number"},
+                                "FoodDrink": {"type": "number"},
+                                "Home": {"type": "number"},
+                                "Entertainment": {"type": "number"},
+                                "Transportation": {"type": "number"},
+                                "Health": {"type": "number"},
+                                "Misc": {"type": "number"}
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "x-auth-token",
+                        "required": true,
+                        "description": "Authorization token",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated/created the user's budget guru",
+                        "schema": {
+                            "properties": {
+                                "Active": {"type": "boolean"},
+                                "Budget": {"type": "number"},
+                                "Earned": {"type": "number"},
+                                "Spent": {"type": "number"},
+                                "MonthlyIncome": {"type": "number"},
+                                "MonthlyBill": {"type": "number"},
+                                "CalculatedCategory": {
+                                    "properties": {
+                                        "Clothing": {"type": "number"},
+                                        "FoodDrink": {"type": "number"},
+                                        "Home": {"type": "number"},
+                                        "Entertainment": {"type": "number"},
+                                        "Transportation": {"type": "number"},
+                                        "Health": {"type": "number"},
+                                        "Misc": {"type": "number"}
+                                    }
+                                },
+                                "PercentCategory": {
+                                    "properties": {
+                                        "Clothing": {"type": "number"},
+                                        "FoodDrink": {"type": "number"},
+                                        "Home": {"type": "number"},
+                                        "Entertainment": {"type": "number"},
+                                        "Transportation": {"type": "number"},
+                                        "Health": {"type": "number"},
+                                        "Misc": {"type": "number"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Could not update user's budget guru",
+                        "schema": {
+                            "properties": {
+                                "error": {"type": "string"}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/categories/getCategories": {
+            "get": {
+                "tags": [
+                    "Budget Guru Configurations"
+                ],
+                "summary": "Retrieve user's budget guru calibration",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-auth-token",
+                        "required": true,
+                        "description": "Authorization token",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved user's budget guru calibration",
+                        "schema": {
+                            "properties": {
+                                "Active": {"type": "boolean"},
+                                "Budget": {"type": "number"},
+                                "Earned": {"type": "number"},
+                                "Spent": {"type": "number"},
+                                "MonthlyIncome": {"type": "number"},
+                                "MonthlyBill": {"type": "number"},
+                                "CalculatedCategory": {
+                                    "properties": {
+                                        "Clothing": {"type": "number"},
+                                        "FoodDrink": {"type": "number"},
+                                        "Home": {"type": "number"},
+                                        "Entertainment": {"type": "number"},
+                                        "Transportation": {"type": "number"},
+                                        "Health": {"type": "number"},
+                                        "Misc": {"type": "number"}
+                                    }
+                                },
+                                "PercentCategory": {
+                                    "properties": {
+                                        "Clothing": {"type": "number"},
+                                        "FoodDrink": {"type": "number"},
+                                        "Home": {"type": "number"},
+                                        "Entertainment": {"type": "number"},
+                                        "Transportation": {"type": "number"},
+                                        "Health": {"type": "number"},
+                                        "Misc": {"type": "number"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to retrieve user's budget guru",
+                        "schema": {
+                            "properties": {
+                                "error": {"type": "string"}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "properties": {
+                "FirstName": {
+                    "type": "string",
+                    "required": true
+                },
+                "LastName": {
+                    "type": "string",
+                    "required": true
+                },
+                "Email": {
+                    "type": "string",
+                    "required": true,
+                    "unique": true
+                },
+                "UserName": {
+                    "type": "string",
+                    "required": true
+                },
+                "Password": {
+                    "type": "string",
+                    "required": true
+                },
+                "RequestPasswordChange": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "Active": {
+                    "type": "boolean",
+                    "default": false
+                }
+            }
+        },
+        "Categories": {
+            "properties": {
+                "AccountFK": {
+                    "type": "string",
+                    "required": true
+                },
+                "PercentCategory": {
+                    "properties": {
+                        "Clothing": {
+                            "type": "Number",
+                            "default": 0
+                        },
+                        "FoodDrink": {
+                            "type": "Number",
+                            "default": 0
+                        },
+                        "Home": {
+                            "type": "Number",
+                            "default": 0
+                        },
+                        "Entertainment": {
+                            "type": "Number",
+                            "default": 0
+                        },
+                        "Transportation": {
+                            "type": "Number",
+                            "default": 0
+                        },
+                        "Health": {
+                            "type": "Number",
+                            "default": 0
+                        },
+                        "Misc": {
+                            "type": "Number",
+                            "default": 0
+                        }
+                    }
+                }
+            }
+        },
+        "Account": {
+            "properties": {
+                "MonthlyIncome": {
+                    "type": "number",
+                    "default": 0
+                },
+                "MonthlyBill": {
+                    "type": "number",
+                    "default": 0
+                },
+                "Budget": {
+                    "type": "number",
+                    "default": 0
+                },
+                "Earned": {
+                    "type": "number",
+                    "default": 0
+                },
+                "Spent": {
+                    "type": "number",
+                    "default": 0
+                },
+                "CalculatedCategory": {
+                    "properties": {
+                        "Clothing": {
+                            "type": "number",
+                            "default": 0
+                        },
+                        "FoodDrink": {
+                            "type": "number",
+                            "default": 0
+                        },
+                        "Home": {
+                            "type": "number",
+                            "default": 0
+                        },
+                        "Entertainment": {
+                            "type": "number",
+                            "default": 0
+                        },
+                        "Transportation": {
+                            "type": "number",
+                            "default": 0
+                        },
+                        "Health": {
+                            "type": "number",
+                            "default": 0
+                        },
+                        "Misc": {
+                            "type": "number",
+                            "default": 0
+                        }
+                    }
+                },
+                "Active": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "AccountUser": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        }
+    }
+}

@@ -187,14 +187,17 @@ export class Dashboard extends Component
         const { user } = this.props.auth;
 
         const startDashboard = (
-            <Fragment>
+            <div style={{marginLeft: "auto", marginRight: "auto", marginTop: "-2%", marginBottom: "11.6%"}}>
+                <Card style={{width: '90rem', margin: 'auto', padding: '25px'}}>
                 <Card.Body style={{margin: 'auto'}}>This dashboard looks empty. Let's get started on it!</Card.Body>
-                <Button variant="primary" href="/categories" style={{ margin: 'auto' }}>Start a Budget Guru</Button>
-            </Fragment>
+                <Button variant="success" href="/categories" style={{ margin: 'auto' }}>Start a Budget Guru</Button>
+                </Card>
+            </div>
         );
 
         const loadDashboard = (
-            <Fragment>
+            <div style={{marginLeft: "auto", marginRight: "auto", marginTop: "-5%", marginBottom: "-15.6%"}}>
+                <Card style={{width: '90rem', margin: 'auto', padding: '25px'}}>
                 <Card.Header className="text-center" as="h5"><strong>{user ? `${user.FirstName} ${user.LastName}'s Budget Guru`: ''}</strong></Card.Header>
                 <br />
                 <Container fluid="true">
@@ -204,7 +207,7 @@ export class Dashboard extends Component
                             <Doughnut data={this.state.dataDoughnut} options={{ responsive: true, legend: {position: 'left'}}}/>
                         </Col>
                         <Col>
-                            <Card style={{width: '22rem', margin: 'auto', padding: '10px'}}>
+                            <Card style={{width: '23rem', margin: 'auto', padding: '10px'}}>
                                 <Card.Header className="text-center" as="h5">Review</Card.Header>
                                 <br />
                                 <Card.Title className="text-center">{`Current Budget: $${this.state.Budget}`}</Card.Title>
@@ -232,7 +235,7 @@ export class Dashboard extends Component
                                                         <Form.Group>
                                                             <Form.Label>Amount Earned</Form.Label>
                                                             <Form.Control type="number" name="newEarned" min="0" onChange={this.onChange}/>
-                                                            <Button variant="primary" style={{ marginTop: '2rem' }} onClick={this.onSubmitEarned}>Update Budget</Button>
+                                                            <Button variant="success" style={{ marginTop: '2rem' }} onClick={this.onSubmitEarned}>Update Budget</Button>
                                                         </Form.Group>
                                                     </Form>
                                                 </Modal.Body>
@@ -259,7 +262,7 @@ export class Dashboard extends Component
                                                             <Form.Check type="radio" name="groupChecks" value="Transportation" checked={this.state.Category === 'Transportation'} onChange={this.radioChange} label="Transportation"/>
                                                             <Form.Check type="radio" name="groupChecks" value="Health" checked={this.state.Category === 'Health'} onChange={this.radioChange} label="Health"/>
                                                             <Form.Check type="radio" name="groupChecks" value="Misc" checked={this.state.Category === 'Misc'} onChange={this.radioChange} label="Miscellaneous"/>
-                                                            <Button variant="primary" style={{ marginTop: '2rem' }} onClick={this.onSubmitSpent}>Update Budget</Button>
+                                                            <Button variant="success" style={{ marginTop: '2rem' }} onClick={this.onSubmitSpent}>Update Budget</Button>
                                                         </Form.Group>
                                                     </Form>
                                                 </Modal.Body>
@@ -272,16 +275,19 @@ export class Dashboard extends Component
                     </Row>
                 </Container>
                 <br />
-                <Button variant="primary" href="/categories" style={{ margin: 'auto' }}>Edit Budget Guru</Button>
-            </Fragment>
-        );
-
-        return(
-            <div>
-                <Card style={{width: '90rem', margin: 'auto', padding: '25px'}}>
-                    {hasDashboard ? loadDashboard : startDashboard}
+                <Button variant="info" href="/categories" style={{ margin: 'auto' }}>Edit Budget Guru</Button>
                 </Card>
             </div>
+        );
+
+        // "-7% 0% 0% 3.5%"
+        // <div style={{marginLeft: "auto", marginRight: "auto", marginTop: "-2%"}}>
+        return(
+          <div style={{background: "rgb(214, 245, 230)"}}>
+            <div className="row section-separator">
+                  {hasDashboard ? loadDashboard : startDashboard}
+          </div>
+        </div>
         );
     }
 }

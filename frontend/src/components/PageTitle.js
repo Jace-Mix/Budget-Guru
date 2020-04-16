@@ -3,7 +3,9 @@ import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Logout from './auth/Logout';
+import '../css styles/myStyles.css';
 
+var outputStr;
 export class PageTitle extends Component
 {
     static propTypes = {
@@ -22,28 +24,32 @@ export class PageTitle extends Component
                     </span>
                 </NavItem>
                 <NavItem>
-                    <Button type="button" className="mr-sm-2" href="/dashboard">My Dashboard</Button>
+                    <Button variant="light" type="button" className="mr-sm-2" href="/dashboard">My Dashboard</Button>
                 </NavItem>
                 <NavItem>
-                    <Logout />
+                    <Logout/>
                 </NavItem>
             </Fragment>
         );
 
         const guestLinks = (
-            <Fragment>
-                <NavItem>
-                    <Button type="button" className="mr-sm-2" href="/login">Login</Button>
-                </NavItem>
-                <NavItem>
-                    <Button type="button" className="mr-sm-2" href="/signup">Sign Up</Button>
-                </NavItem>
-            </Fragment>
-        );
+              <Fragment>
+                  <NavItem>
+                      <Button variant="light" type="button" className="mr-sm-2" href="/login">Login</Button>
+                  </NavItem>
+                  <NavItem>
+                      <Button variant="light" type="button" className="mr-sm-2" href="/signup">Sign Up</Button>
+                  </NavItem>
+              </Fragment>
+          );
 
         return(
-            <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="/">Budget Guru</Navbar.Brand>  
+            <Navbar className='navbar_color'>
+
+                <img src="piggy-bank-icon.png" alt="" width="50" height="50"/>
+                <Navbar.Brand href = {isAuthenticated ? "/dashboard" : "/"} style={{color: "rgb(23,68,46)", fontSize: "30px", fontWeight: "400", marginLeft: "1rem"}}>
+                Budget Guru
+                </Navbar.Brand>
                 <Nav className="ml-auto">
                     {isAuthenticated ? authLinks : guestLinks}
                 </Nav>

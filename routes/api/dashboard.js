@@ -49,7 +49,7 @@ router.post('/updateSpent', auth, (req, res) =>
                     account.CalculatedCategory.FoodDrink = account.CalculatedCategory.FoodDrink - parseFloat(Spent);
                     account.save();
                     return res.json({
-                        msg: `Spent $${Spent} on ${Category}`,
+                        msg: `Spent $${Spent} on Food/Drinks`,
                         account: {
                             Active: account.Active,
                             Budget: account.Budget,
@@ -134,7 +134,7 @@ router.post('/updateSpent', auth, (req, res) =>
                     account.CalculatedCategory.Misc = account.CalculatedCategory.Misc - parseFloat(Spent);
                     account.save();
                     return res.json({
-                        msg: `Spent $${Spent} on ${Category}`,
+                        msg: `Spent $${Spent} on Miscellaneous`,
                         account: {
                             Active: account.Active,
                             Budget: account.Budget,

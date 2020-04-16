@@ -5,7 +5,7 @@ import ConfirmReset from '../components/ConfirmReset';
 const ConfirmResetPage = () =>
 {
     return(
-        <div>
+        <div style={{background: "rgb(214, 245, 230)", paddingBottom: "35.2%"}}>
             <PageTitle />
             <ConfirmReset />
         </div>

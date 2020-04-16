@@ -62,29 +62,36 @@ export class Login extends Component
     render()
     {
         return(
-            <div id="loginDiv">
-           <Card style={{width: '60rem', margin: 'auto', padding: '25px'}}>
-            <Card.Header className="text-center" as="h5">Login</Card.Header>
-            <br />
-           <Form className="mx-sm-3">
-           {this.state.error ? (<Alert variant="danger" style={{ marginTop: "1rem"}}>{this.state.error}</Alert>) : null}
-            <Form.Group controlId="formBasicUsername">
-                <Form.Label>Username</Form.Label>
-                <Form.Control type="text" name="UserName" placeholder="Enter Username" onChange={this.onChange}/>
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" name="Password" placeholder="Password" onChange={this.onChange}/>
-                <Form.Text className="text-muted" href="/confirmreset">
-                    <a href="/confirmreset">Forgot Password?</a>
-                </Form.Text>
-            </Form.Group>
-            <Button variant="primary" type="submit" id="loginButton" onClick={this.onSubmit}>
-                Login
-            </Button>
-            </Form>
-            </Card>
-       </div>
+          <section className="header-section-1 bg-image-1 header-js" id="header">
+            <div className="overlay-color" >
+              <div className="container">
+                <div className="row section-separator">
+                  <div id="loginDiv" style={{margin: "-5% 0% 0% 20%"}} >
+                     <Card style={{width: '45rem', margin: 'auto', padding: '25px'}}>
+                     <Card.Header className="text-center" as="h5">Login</Card.Header>
+                     <Form className="mx-sm-3">
+                     {this.state.error ? (<Alert variant="danger" style={{ marginTop: "1rem"}}>{this.state.error}</Alert>) : null}
+                      <Form.Group controlId="formBasicUsername">
+                          <Form.Label>Username</Form.Label>
+                          <Form.Control type="text" name="UserName" placeholder="Enter Username" onChange={this.onChange}/>
+                      </Form.Group>
+                      <Form.Group controlId="formBasicPassword">
+                          <Form.Label>Password</Form.Label>
+                          <Form.Control type="password" name="Password" placeholder="Password" onChange={this.onChange}/>
+                          <Form.Text className="text-muted" href="/confirmreset">
+                              <a href="/confirmreset">Forgot Password?</a>
+                          </Form.Text>
+                      </Form.Group>
+                      <Button variant="success" type="submit" id="loginButton" onClick={this.onSubmit}>
+                          Login
+                      </Button>
+                      </Form>
+                      </Card>
+                 </div>
+             </div >
+           </div >
+         </div>
+       </section >
         );
     }
 }

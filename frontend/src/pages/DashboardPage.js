@@ -8,7 +8,6 @@ const DashboardPage = () =>
     return(
         <div>
             <PageTitle />
-            <br />
             <Dashboard />
         </div>
     );

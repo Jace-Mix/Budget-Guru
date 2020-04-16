@@ -6,7 +6,7 @@ import Categories from '../components/Categories';
 const CategoriesPage = () =>
 {
     return(
-        <div>
+        <div style={{background: "rgb(214, 245, 230)", paddingBottom: "2.24%"}}>
             <PageTitle />
             <br />
             <Categories />

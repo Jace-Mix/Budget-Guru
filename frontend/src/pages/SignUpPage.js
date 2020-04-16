@@ -8,7 +8,6 @@ const SignUpPage = () =>
     return(
         <div>
         <PageTitle />
-        <br />
         <SignUp />
         </div>
     )

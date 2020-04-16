@@ -50,10 +50,10 @@ class App extends Component
                     <ConfirmResetPage />
                 </Route>
                 <Route path="/dashboard" exact>
-                {localStorage.getItem('token') !== null ? <DashboardPage /> : <Redirect to="/error"/>}       
+                    {localStorage.getItem('token') !== null ? <DashboardPage /> : <Redirect to="/error"/>}
                 </Route>
                 <Route path="/categories" exact>
-                {localStorage.getItem('token') !== null ? <CategoriesPage /> : <Redirect to="/error"/>}
+                    {localStorage.getItem('token') !== null ? <CategoriesPage /> : <Redirect to="/error"/>}
                 </Route>
                 <Route path="/error" exact>
                     <ErrorPage />

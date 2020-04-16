@@ -81,50 +81,55 @@ export class SignUp extends Component
 
     render()
     {
-        return(
-            <div>
-            <Card style={{width: '60rem', margin: 'auto', padding: '25px'}}>
-            <Card.Header className="text-center" as="h5">Sign Up</Card.Header>
-            <Form className="mx-xl-2">
-            { this.state.error ? (<Alert variant="danger" style={{ marginTop: "1rem" }}>{this.state.error}</Alert>) : null }
-            { this.state.msg ? (<Alert variant="success" style={{ marginTop: "1rem" }}>{this.state.msg}</Alert>) : null}
-                <Form.Group controlId="formFirstName">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control type="text" name="FirstName" onChange={this.onChange}/>
-                </Form.Group>
+      return(
+        <section className="header-section-1 bg-image-1 header-js" id="header">
+          <div className="overlay-color" >
+              <div className="row section-separator">
+                <div style={{margin: "-5% 0% 0% 30%"}}>
+                <br />
+                <Card style={{width: '45rem', margin: 'auto', padding: '25px'}}>
+                <Card.Header className="text-center" as="h5">Sign Up</Card.Header>
+                <Form className="mx-xl-2">
+                { this.state.error ? (<Alert variant="danger" style={{ marginTop: "1rem" }}>{this.state.error}</Alert>) : null }
+                { this.state.msg ? (<Alert variant="success" style={{ marginTop: "1rem" }}>{this.state.msg}</Alert>) : null}
+                    <Form.Group controlId="formFirstName">
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control type="text" name="FirstName" onChange={this.onChange}/>
+                    </Form.Group>
 
-                <Form.Group controlId="formLastName">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control type="text" name="LastName" onChange={this.onChange}/>
-                </Form.Group>
+                    <Form.Group controlId="formLastName">
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control type="text" name="LastName" onChange={this.onChange}/>
+                    </Form.Group>
 
-                <Form.Group controlId="formEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" name="Email" onChange={this.onChange}/>
-                </Form.Group>
+                    <Form.Group controlId="formEmail">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control type="email" name="Email" onChange={this.onChange}/>
+                    </Form.Group>
 
-                <Form.Group controlId="formUsername">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control type="text" name="UserName" onChange={this.onChange}/>
-                </Form.Group>
+                    <Form.Group controlId="formUsername">
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control type="text" name="UserName" onChange={this.onChange}/>
+                    </Form.Group>
 
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" name="Password" onChange={this.onChange}/>
-                </Form.Group>
+                    <Form.Group controlId="formBasicPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control type="password" name="Password" onChange={this.onChange}/>
+                    </Form.Group>
 
-                <Form.Group controlId="formPasswordRetype">
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control type="password" name="PasswordConfirm" onChange={this.onChange}/>
-                </Form.Group>
-                
-
-                <Button variant="primary" type="submit" onClick={this.onSubmit}>
-                    Register
-                </Button>
-            </Form>
-            </Card>
-            </div>
+                    <Form.Group controlId="formPasswordRetype">
+                        <Form.Label>Confirm Password</Form.Label>
+                        <Form.Control type="password" name="PasswordConfirm" onChange={this.onChange}/>
+                    </Form.Group>
+                    <Button variant="success" type="submit" onClick={this.onSubmit}>
+                        Register
+                    </Button>
+                </Form>
+                </Card>
+                </div>
+          </div>
+        </div>
+      </section>
         );
     }
 }

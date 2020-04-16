@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const config = require('config');
+const swaggerUI = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 require('dotenv').config();
 
 // Express setup
@@ -20,6 +22,9 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/categories', require('./routes/api/categories'));
 app.use('/api/dashboard', require('./routes/api/dashboard'));
+
+// Swagger endpoint
+app.use('/swagger', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 if (process.env.NODE_ENV === 'production')
 {
