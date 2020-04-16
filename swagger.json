@@ -3,7 +3,7 @@
     "info": {
         "version": "1.0.0",
         "title": "Budget Guru API Swagger Documentation",
-        "description": "Test",
+        "description": "Visual documentation of the endpoints that occur in the Budget Guru web application",
         "license": {
             "name": "MIT",
             "url": "https://opensource.org/licenses/MIT"
