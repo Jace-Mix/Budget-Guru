@@ -158,7 +158,7 @@ router.post('/updateEarned', auth, (req, res) =>
 {
     const { Earned } = req.body;
 
-    if (Earned === 0)
+    if (parseInt(Earned) === 0)
     {
         return res.status(400).json({error: 'Please fill out the field first'});
     }
